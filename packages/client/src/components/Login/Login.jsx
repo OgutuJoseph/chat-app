@@ -1,18 +1,23 @@
-import { VStack, ButtonGroup, Button, Heading } from '@chakra-ui/react'
-import { Form, Formik } from 'formik';
-// import * as Yup from 'yup';
-import { formSchema } from '@chat-app/common';
+import { VStack, ButtonGroup, Button, Heading, Text } from '@chakra-ui/react'; 
+import { Form, Formik } from 'formik'; 
 import TextField from './TextField';
 import { useNavigate } from 'react-router';
+import { formSchema } from '@chat-app/common';
+import { useContext, useState } from 'react';
+import { AccountContext } from '../AccountContext'
 
 const Login = () => {
+
+    const {setUser} = useContext(AccountContext);
+
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
     return (
         <Formik
-            initialValues= {{username: '', password: ''}}
-            validationSchema= { formSchema }
+            initialValues = {{username: '', password: ''}}
+            validationSchema = { formSchema }
             onSubmit= {(values, actions) => {
                 // alert(JSON.stringify(values, null, 2));
                 const vals = {...values}
@@ -32,13 +37,24 @@ const Login = () => {
                 }
                 return res.json();
                 }).then(data => {
-                if(!data) return;
-                console.log('dataa', data);
+                if(!data) return; 
+                setUser({...data});
+                if(data.status)
+                {
+                    setError(data.status);
+                }
+                else if(data.loggedIn)
+                {
+                    navigate('/home');
+                }       
                 })
             }}
             > 
             <VStack as={Form} w={{ base: '90%', md: '500px' }} m='auto' justify='center' h='100vh' spacing='1rem'>
                 <Heading>Log In</Heading>
+
+                <Text as='p' color='red.500'>{error}</Text>
+
                 {/* <FormControl isInvalid={formik.errors.username && formik.touched.username}>
                 <FormLabel fontSize='lg'>Username</FormLabel>
                 <Input name='username' placeholder='Enter Username' autoComplete='off' size='lg' type='text' value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur} />
