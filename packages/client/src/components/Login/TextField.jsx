@@ -1,6 +1,6 @@
 import { Field, useField } from 'formik';
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/form-control';
-import { Input } from '@chakra-ui/input';
+import { Input } from '@chakra-ui/input'
 
 const TextField = ({ label, ...props }) => {
     const [field, meta] = useField(props)
