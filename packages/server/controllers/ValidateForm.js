@@ -1,9 +1,4 @@
-const Yup = require('yup');
-
-const formSchema = Yup.object({
-    username: Yup.string().required('Username required').min(6, 'Username must be six characters or more.').max(28, 'Username too long.'),
-    password: Yup.string().required('Password required').min(6, 'Password must be six characters or more.').max(28, 'Password too long.'),
-})
+const { formSchema } = require('@chat-app/common');
 
 const validateForm = (req, res) => {
     const formData = req.body;
@@ -12,7 +7,8 @@ const validateForm = (req, res) => {
         console.log(err.errors);
     }).then(valid => {
         if (valid) {
-        console.log('form is good')
+            res.status(200).send();
+            console.log('form is good')
         }
     });
 }

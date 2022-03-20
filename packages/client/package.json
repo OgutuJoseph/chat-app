@@ -1,10 +1,10 @@
 {
-  "name": "client",
+  "name": "@chat-app/client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
-    "@chakra-ui/react": "1.8.5",
+    "@chakra-ui/react": "^1.8.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@testing-library/jest-dom": "^5.14.1",
@@ -17,7 +17,7 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.0",
-    "yup": "^0.32.11"
+    "@chat-app/common": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

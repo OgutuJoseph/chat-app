@@ -1,6 +1,7 @@
 import { VStack, ButtonGroup, Button, Heading } from '@chakra-ui/react'
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
+import { formSchema } from '@chat-app/common';
 import TextField from './TextField';
 import { useNavigate } from 'react-router';
 
@@ -11,10 +12,7 @@ const Login = () => {
     return (
         <Formik
             initialValues= {{username: '', password: ''}}
-            validationSchema= {Yup.object({
-                username: Yup.string().required('Username required.').min(6, 'Username must be six characters or more.').max(28, 'Username too long.'),
-                password: Yup.string().required('Password required.').min(6,  'Password must be six characters or more.').max(28, 'Password too long.'),
-            })}
+            validationSchema= { formSchema }
             onSubmit= {(values, actions) => {
                 // alert(JSON.stringify(values, null, 2));
                 const vals = {...values}
