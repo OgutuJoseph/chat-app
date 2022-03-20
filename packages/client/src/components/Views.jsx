@@ -1,10 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
 import { Text } from '@chakra-ui/layout';
-import Login from './Login/Login';
-import SignUp from './Login/SignUp';
+
 import PrivateRoutes from './PrivateRoutes';
 import { useContext } from 'react';
-import { AccountContext } from './AccountContext'; 
+import { AccountContext } from './AccountContext';  
+
+import Login from './Login/Login';
+import SignUp from './Login/SignUp';
+import Home from './Home/Home';
 
 
 const Views = () => {
@@ -21,7 +24,8 @@ const Views = () => {
 
             {/* Wrap home component in private route to prevent unauthorized access to resource */}
             <Route element={<PrivateRoutes />}>                
-                <Route path='/home' element={<Text>Hi, Welcome Home</Text>}/> 
+                {/* <Route path='/home' element={<Text>Hi, Welcome Home</Text>}/>  */}
+                <Route path='/home' element={<Home />}/> 
             </Route>
         </Routes> 
     )
