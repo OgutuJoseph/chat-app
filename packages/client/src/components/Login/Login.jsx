@@ -16,10 +16,29 @@ const Login = () => {
                 password: Yup.string().required('Password required.').min(6,  'Password must be six characters or more.').max(28, 'Password too long.'),
             })}
             onSubmit= {(values, actions) => {
-            alert(JSON.stringify(values, null, 2));
-            actions.resetForm();
+                // alert(JSON.stringify(values, null, 2));
+                const vals = {...values}
+                actions.resetForm();
+                fetch('http://localhost:4000/auth/login', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(vals),
+                }).catch(err => {
+                return;
+                }).then(res => {
+                if(!res || !res.ok || !res.status >= 400){
+                    return;
+                }
+                return res.json();
+                }).then(data => {
+                if(!data) return;
+                console.log('dataa', data);
+                })
             }}
-        > 
+            > 
             <VStack as={Form} w={{ base: '90%', md: '500px' }} m='auto' justify='center' h='100vh' spacing='1rem'>
                 <Heading>Log In</Heading>
                 {/* <FormControl isInvalid={formik.errors.username && formik.touched.username}>
