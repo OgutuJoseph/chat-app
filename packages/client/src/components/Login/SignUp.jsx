@@ -2,7 +2,7 @@ import { VStack, ButtonGroup, Button, Heading } from '@chakra-ui/react'
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import TextField from './TextField';
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router';
 
 const SignUp = () => {
 

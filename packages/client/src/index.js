@@ -4,7 +4,7 @@ import App from './App';
 import { ColorModeScript } from '@chakra-ui/color-mode';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
