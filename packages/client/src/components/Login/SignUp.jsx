@@ -1,6 +1,6 @@
 import { VStack, ButtonGroup, Button, Heading, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik'; 
-import TextField from './TextField';
+import TextField from '../Containers/TextField';
 import { useNavigate } from 'react-router';
 import { formSchema } from '@chat-app/common';
 import { useContext, useState } from 'react';
