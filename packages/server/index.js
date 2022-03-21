@@ -2,10 +2,8 @@ const express = require('express');
 const { Server } = require('socket.io');
 const helmet = require('helmet');
 const cors = require('cors');
-const authRouter = require('./routers/authRouter');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-const redisClient = require('./redis');
+const authRouter = require('./routers/authRouter'); 
+const { sessionMiddleware, wrap, corsConfig } = require('./controllers/serverController');
 
 
 const app = express();
@@ -13,18 +11,12 @@ const server = require('http').createServer(app);
 
 
 const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:3000',
-        credentials: 'true',
-    },
+    cors: corsConfig,
 });
 
 app.use(helmet());
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
+app.use(cors(corsConfig));
 app.use(express.json());
 
 // app.use(
@@ -35,38 +27,30 @@ app.use(express.json());
 //         resave: false,
 //         saveUninitialized: true,
 //         cookie: { 
+    //         secure: process.env.NODE_ENV === 'production' ? 'true': 'auto',
 //             secure: process.env.ENVIRONMENT === 'production' ? 'true': 'auto',
 //             httpOnly: true,
 //             expires: 1000 * 60 * 60 * 24 * 7,
+    //         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 //             sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
 //         }
 //     })
 // );
 app.use(
-    session({
-        secret: process.env.COOKIE_SECRET,
-        credentials: true,
-        name: 'sid',
-        store: new RedisStore({ client: redisClient }),
-        resave: false,
-        saveUninitialized: true,
-        cookie: { 
-            secure: process.env.ENVIRONMENT === 'production',
-            httpOnly: true,
-            expires: 1000 * 60 * 60 * 24 * 7,
-            sameSite: process.env.ENVIRONMENT === 'production' ? 'none' : 'lax',
-        }
-    })
+    sessionMiddleware
 );
+
 app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
     res.json('Server Running');
 })
 
+io.use(wrap(sessionMiddleware));
 
-
-io.on('connect', socket => {});
+io.on('connect', socket => {
+    console.log('socket user: ', socket.request.session.user.username);
+});
 
 server.listen(4000, () => {
     console.log('Server Listening on Port 4000');

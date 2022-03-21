@@ -17,7 +17,7 @@ const Chat = () => {
     ) 
     :
     (
-        <VStack justify='center' pt='2rem' w='100vw' textAlign='center' fontSize='lg'>
+        <VStack justify='center' pt='2rem' w='60vw' textAlign='center' fontSize='lg'>
             <TabPanels> 
                 <Text>No Friend :( Click 'Add Friend' to start chatting.</Text>
             </TabPanels>
