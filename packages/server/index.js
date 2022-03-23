@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const authRouter = require('./routers/authRouter'); 
 const { sessionMiddleware, wrap, corsConfig } = require('./controllers/serverController');
+const { authorizeUser } = require('./controllers/socketController');
 
 
 const app = express();
@@ -48,9 +49,15 @@ app.get('/', (req, res) => {
 
 io.use(wrap(sessionMiddleware));
 
-io.on('connect', socket => {
-    console.log('socket Id: ', socket.id);
-    console.log('socket user: ', socket.request.session.user.username);
+io.use(authorizeUser);
+
+io.on("connect", socket => {
+    // console.log('socket user: ', socket.user);
+    // console.log('socket Id: ', socket.id);
+    //ABOVE TWO OR
+    console.log('User Id: ', socket.user.userid);
+
+    console.log('socket username: ', socket.request.session.user.username);
 });
 
 server.listen(4000, () => {
