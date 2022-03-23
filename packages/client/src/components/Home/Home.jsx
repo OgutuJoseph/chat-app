@@ -17,7 +17,7 @@ const Home = () => {
         
     ]);
 
-    useSocketSetup();
+    useSocketSetup(setFriendList);
 
     return (
         <FriendContext.Provider value={{ friendList, setFriendList}}>

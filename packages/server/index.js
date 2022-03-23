@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const authRouter = require('./routers/authRouter'); 
 const { sessionMiddleware, wrap, corsConfig } = require('./controllers/serverController');
-const { authorizeUser } = require('./controllers/socketController');
+const { authorizeUser, initializeUser, addFriend } = require('./controllers/socketController');
 
 
 const app = express();
@@ -52,12 +52,11 @@ io.use(wrap(sessionMiddleware));
 io.use(authorizeUser);
 
 io.on("connect", socket => {
-    // console.log('socket user: ', socket.user);
-    // console.log('socket Id: ', socket.id);
-    //ABOVE TWO OR
-    console.log('User Id: ', socket.user.userid);
+    initializeUser(socket);
 
-    console.log('socket username: ', socket.request.session.user.username);
+    socket.on('add_friend', (friendName, cb) => {
+        addFriend(socket, friendName, cb)
+    });
 });
 
 server.listen(4000, () => {
