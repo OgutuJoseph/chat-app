@@ -32,9 +32,9 @@ const AddFriendModal = ({ isOpen, onClose }) => {
                 <Formik
                     initialValues={{ friendName: '' }}
                     onSubmit={(values, actions) => {
-                        socket.emit('add_friend', values.friendName, ({ errorMsg, done }) => {
+                        socket.emit('add_friend', values.friendName, ({ errorMsg, done, newFriend }) => {
                             if (done) {
-                                setFriendList(c => [values.friendName, ...c])
+                                setFriendList(c => [newFriend, ...c])
                                 closeModal();
                                 return;
                             }
