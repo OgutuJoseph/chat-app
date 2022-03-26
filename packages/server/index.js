@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const authRouter = require('./routers/authRouter'); 
 const { sessionMiddleware, wrap, corsConfig } = require('./controllers/serverController');
-const { authorizeUser, initializeUser, addFriend, onDisconnect } = require('./controllers/socketController');
+const { authorizeUser, initializeUser, addFriend, onDisconnect, directMessage } = require('./controllers/socketController');
 
 
 const app = express();
@@ -57,6 +57,8 @@ io.on("connect", socket => {
     socket.on('add_friend', (friendName, cb) => {
         addFriend(socket, friendName, cb)
     });
+
+    socket.on('dm', (message) => directMessage(socket, message))
 
     socket.on('disconnecting', () => onDisconnect(socket));
 });
